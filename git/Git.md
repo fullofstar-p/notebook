@@ -183,3 +183,29 @@ git push [shortName] [name]
 ```git
 git checkout -b [branch] [name]
 ```
+
+#  在IDEA中使用Git
+
+## 获取Git本地仓库
+
+获取Git仓库通常有两种方式:
+
+1. 本地初始化仓库
+
+   ![image-20241024224558781](../../../AppData/Roaming/Typora/typora-user-images/image-20241024224558781.png)
+
+2. 从远程仓库克隆
+
+   ![image-20241024224530835](../../../AppData/Roaming/Typora/typora-user-images/image-20241024224530835.png)
+
+## 本地仓库操作
+
+**将文件加入暂存区**
+
+
+
+**将暂存区的文件提交到版本库**
+
+
+
+**查看日志**
