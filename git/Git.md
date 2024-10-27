@@ -114,7 +114,7 @@ git pull [short-name] [branch-name]
 
 ==注意:==**如果当前本地仓库不是从远程仓库克隆,而是本地创建的仓库,并且仓库中存在文件,此时再从远程仓库拉取文件是会报错(fatal:refusing to merge unrelated histories)**
 
-解决此问题可以在git pull命令后加入参数 `--allow-unrealted-histories`
+解决此问题可以在git pull命令后加入参数 `--allow-unrelated-histories`
 
 **推送到远程仓库**
 
@@ -192,20 +192,76 @@ git checkout -b [branch] [name]
 
 1. 本地初始化仓库
 
-   ![image-20241024224558781](../../../AppData/Roaming/Typora/typora-user-images/image-20241024224558781.png)
+   ![image-20241024224558781](./images/image-20241024224558781.png)
 
 2. 从远程仓库克隆
 
-   ![image-20241024224530835](../../../AppData/Roaming/Typora/typora-user-images/image-20241024224530835.png)
+   ![image-20241024224530835](./images/image-20241024224530835.png)
 
 ## 本地仓库操作
 
 **将文件加入暂存区**
 
-
+![image-20241027210222779](./images/image-20241027210222779.png)
 
 **将暂存区的文件提交到版本库**
 
+![image-20241027210325894](./images/image-20241027210325894.png)
 
+![image-20241027210647382](./images/image-20241027210647382.png)
 
 **查看日志**
+
+![image-20241027210613771](./images/image-20241027210613771.png)
+
+## 远程仓库操作
+
+**查看远程仓库**
+
+![image-20241027211005255](./images/image-20241027211005255.png)
+
+**添加远程仓库**
+
+![image-20241027211110036](./images/image-20241027211110036.png)
+
+**推送至远程仓库**
+
+![image-20241027211238821](./images/image-20241027211238821.png)
+
+![image-20241027211348220](./images/image-20241027211348220.png)
+
+**从远程仓库拉取**
+
+![image-20241027211655713](./images/image-20241027211655713.png)
+
+![image-20241027211718090](./images/image-20241027211718090.png)
+
+![image-20241027211814907](./images/image-20241027211814907.png)
+
+## 分支操作
+
+**查看分支**
+
+![image-20241027212134806](./images/image-20241027212134806.png)
+
+![image-20241027212233060](./images/image-20241027212233060.png)
+
+![image-20241027212310771](./images/image-20241027212310771.png)
+
+**创建分支**
+
+![image-20241027212340841](./images/image-20241027212340841.png)
+
+![image-20241027212358697](./images/image-20241027212358697.png)
+
+**切换分支**
+
+![](images/Snipaste_2024-10-27_21-31-39.png)
+
+**将分支推送到远程仓库**
+
+![](images/Snipaste_2024-10-27_21-33-41.png)
+
+**合并分支**
+
+![](images/Snipaste_2024-10-27_21-34-59.png)
