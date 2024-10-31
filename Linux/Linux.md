@@ -437,7 +437,142 @@ Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及
 
 ### **手工部署项目**
 
+1. 在IDEA中开发SpringBoot项目并打包成jar包
 
+2. 将jar包上传到Linux服务器
+
+   ```
+   mkdir /usr/local/app		创建目录,将项目jar包放到此目录
+   ```
+
+3. 启动SpringBoot程序
+
+   ```
+   java -jar [jar包]
+   ```
+
+4. 检查防火墙,确保8080端口对外开放,访问SpringBoot项目
+
+5. 改为后台运行SpringBoot程序，并将日志输出到日志文件
+
+   目前程序运行的问题
+
+   - 线上程序不会采用控制台霸屏的形式运行程序，而是将程序在后台运行
+   - 线上程序不会将日志输出到控制台，而是输出到日志文件，方便运维查阅信息
+
+   ```
+   nohup命令：英文全称 no hang up（不挂起），用于不挂断地运行指定命令，退出终端不会影响程序的运行
+   语法格式：nohup Command [Arg…][&]
+   参数说明：
+   Command：要执行的命令
+   Arg：一些参数，可以指定输出文件
+   &：让命令在后台运行
+   举例：
+   nohup java -jar boot工程.jar &> hello.log &	后台运行java-jar命令，并将日志输出到hello.log文件
+   ```
+
+6. 停止SpringBoot程序
+
+   ```
+   ps -ef | grep java -jar
+   kill -9 [进程号]
+   ```
 
 ### **通过Shell脚本自动部署项目**
+
+**操作步骤**
+
+1. 在Linux中安装Git
+
+   ```
+   yum list git		列出git安装包
+   yum install git		在线安装git
+   ```
+
+2. 使用Git克隆代码
+
+   ```
+   cd /usr/local/
+   git clone https://gitee.com/fullofstar-p/reggie_take_out.git
+   ```
+
+3. 在Linux中安装maven
+
+   ```
+   tar -zxvf apache-maven-3.9.9-bin.tar.gz -C /usr/local
+   vim /etc/profile									修改配置文件，加入如下内容
+   export MAVEN_HOME=/usr/local/apache-maven-3.9.9
+   export PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH
+   source /etc/profile
+   mvn -version
+   vim /usr/local/apache-maven-3.9.9/conf/settings.xml		修改配置文件内容如下
+   <localRepository>/usr/local/repo</localRepository>
+   
+   mkdir repo
+   mkdir sh
+   vim bootStart.sh
+   ```
+
+4. 编写Shell脚本(拉取代码、编译、打包、启动)
+
+5. 为用户授予执行Shell脚本的权限
+
+   ```
+   chmod（英文全拼：change mode）命令是控制用户对文件的权限的命令
+   Linux中的权限分为：读（r)、写（w)、执行（x）三种权限
+   Linux的文件调用权限分为三级：文件所有者（Owner)、用户组（Group)、其它用户（Other Users)
+   只有文件的所有者和超级用户可以修改文件或目录的权限
+   要执行Shell脚本需要有对此脚本文件的执行权限，如果没有则不能执行
+   ```
+
+   | #    | 权限       | rwx  |
+   | ---- | ---------- | ---- |
+   | 7    | 读+写+执行 | rwx  |
+   | 6    | 读+写      | rw-  |
+   | 5    | 读+执行    | r-x  |
+   | 4    | 只读       | r--  |
+   | 3    | 写+执行    | -wx  |
+   | 2    | 只写       | -w-  |
+   | 1    | 只执行     | --x  |
+   | 0    | 无         | ---  |
+
+   举例:
+
+   - chmod 777 bootStart.sh	为所有用户授予读、写、执行权限
+   - chmod 755 bootStart.sh        为文件拥有者授予读、写、执行权限，同组用户和其他用户授予读、执行权限
+   - chmod 210 bootStart.sh        为文件拥有者授予写权限，同组用户授予执行权限，其他用户没有任何权限
+
+   注意:
+
+   - 第1位表示文件拥有者的权限
+   - 第2位表示同组用户的权限
+   - 第3位表示其他用户的权限
+
+6. 执行Shell脚本
+
+7. 设置静态ip
+
+   ```
+   修改文件 /etc/sysconfig/network-scripts/ifcfg-ens33，内容如下：
+   
+   TYPE="Ethernet"
+   PROXY_METHOD="none"
+   BROWSER_ONLY="no"
+   BOOTPROTO="static"					#使用静态IP地址，默认为dhcp
+   IPADDR="192.168.138.128"			#设置的静态IP地址
+   NETMASK="255.255.255.0"				#子网掩码
+   GATEWAY="192.168.138.2"				#网关地址
+   DNS1="192.168.138.2"				#DNS服务器
+   DEFROUTE="yes"
+   IPV4_FAILURE_FATAL="no"
+   IPV6INIT="yes"
+   IPV6_AUTOCONF="yes"
+   IPV6_DEFROUTE="yes"
+   IPV6_FAILURE_FATAL="no"
+   IPV6_ADDR_GEN_MODE="stable-privacy"
+   NAME="ens33"
+   UUID="95b614cd-79b0-4755-b08d-99f1cca7271b"
+   DEVICE="ens33"
+   ONBOOT="yes"					#是否开机启用
+   ```
 
