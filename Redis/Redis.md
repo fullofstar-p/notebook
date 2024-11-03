@@ -48,14 +48,75 @@ Redis安装包分为windos版和Linux版：
 1. 将Redis安装包上传到Linux
 2. 解压安装包，命令：tar -zxvf redis-4.0.0.tar.gz -C /usr/local
 3. 安装Redis的依赖环境gcc，命令：yum install gcc-c++
-4. 进入／usr/local/redis-4.0.0,进行编译，命令：make
+4. 进入 /usr/local/redis-4.0.0,进行编译，命令：make
 5. 进入redis的src目录，进行安装，命令：make install
 
 ### Redis服务启动与停止
 
+Linux中redis服务启动，可以使用`redis-server`,默认端口为6379
+
 ## 数据类型
 
+**介绍**
+
+Redis存储的是key-value结构的数据,其中key是字符串类型,value有5种常用的数据类型
+
+- 字符串 string
+- 哈希 hash
+- 列表 list
+- 集合 set
+- 有序集合 sorted set
+
+**Redis 5种常用数据类型**
+
+![](images/Snipaste_2024-11-03_22-35-04.png)
+
 ## 常用命令
+
+### 字符串 string 操作命令
+
+```
+SET key value				设置指定key的值
+GET key						获取指定key的值
+SETEX key seconds value		设置指定key的值，并将key的过期时间设为 seconds 秒
+SETNX key value				只有在 key 不存在时设置 key的值
+更多命令可以参考Redis中文网：https://www.redis.net.cn
+```
+
+### 哈希 hash 操作命令
+
+Redis hash是一个string类型的 field 和 value 的映射表，hash特别适合用于存储对象，常用命令
+
+```
+HSET key field value			将哈希表 key 中的字段 field 的值设为 value
+HGET key field					获取存储在哈希表中指定字段的值
+HDEL key field					删除存储在哈希表中的指定字段
+HKEYS key						获取哈希表中所有字段
+HVALS key						获取哈希表中所有值
+HGETALL key						获取在哈希表中指定key的所有字段和值
+```
+
+### 列表 list 操作命令
+
+Redis 列表是简单的字符串列表，按照插入顺序排序，常用命令
+
+```
+LPUSH key value1 [value2]		将一个或多个值插入到列表头部
+LRANGE key start stop			获取列表指定范围内的元素
+RPOP key						移除并获取列表最后一个元素
+LLEN key						获取列表长度
+BRPOP key1 [key2 ] timeout		移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
+```
+
+
+
+### 集合 set 操作命令
+
+### 有序集合 sorted set 操作命令
+
+### 通用命令
+
+
 
 ## 在Java中操作Redis
 
