@@ -108,15 +108,85 @@ LLEN key						获取列表长度
 BRPOP key1 [key2 ] timeout		移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
 ```
 
-
-
 ### 集合 set 操作命令
+
+Redis set 是string类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据，常用命令
+
+```
+SADD key member1 [member2]				向集合添加一个或多个成员
+SMEMBERS key							返回集合中的所有成员
+SCARD key								获取集合的成员数
+SINTER key1[key2]						返回给定所有集合的交集
+SUNION key1 [key2]						返回所有给定集合的并集
+SDIFF key1 [key2]						返回给定所有集合的差集
+SREM key member1 [member2]				移除集合中一个或多个成员
+```
 
 ### 有序集合 sorted set 操作命令
 
+Redis sorted set 有序集合是string 类型元素的集合，且不允许重复的成员。每个元素都会关联一个double类型的分数(score)。redis正是通过分数来为集合中的成员进行从小到大排序。有序集合的成员是唯一的，但分数却可以重复。常用命令
+
+```
+ZADD key score1 member1 [score2 member2]		向有序集合添加一个或多个成员，或者更新已存在成员的分数
+ZRANGE key start stop [WITHSCORES]				通过索引区间返回有序集合中指定区间内的成员
+ZINCRBY key increment member					有序集合中对指定成员的分数加上增量increment  
+ZREM key member [member..…]						移除有序集合中的一个或多个成员
+```
+
 ### 通用命令
 
-
+```
+KEYS pattern		查找所有符合给定模式（pattern）的 key
+EXISTS key			检查给定 key 是否存在
+TYPE key			返回key 所储存的值的类型
+TTL key				返回给定 key的剩余生存时间（TTL, time to live)，以秒为单位
+DEL key				该命令用于在 key存在是删除 key
+```
 
 ## 在Java中操作Redis
 
+**介绍**
+
+Redis 的Java客户端很多，官方推荐的有三种：
+
+- Jedis
+- Lettuce
+- Redisson
+
+Spring 对 Redis客户端进行了整合，提供了 Spring Data Redis，在Spring Boot项目中还提供了对应的Starter，即spring-boot-starter-data-redis
+
+**Jedis**
+
+Jedis的maven坐标：
+```
+<dependency>
+    <groupld>redis.clients</groupld>
+    <artifactld>jedis</artifactld>
+    <version>2.8.0</version>
+</dependency>
+```
+
+使用Jedis操作Redis的步骤：
+
+1. 获取连接
+2. 执行操作
+3. 关闭连接
+
+**Spring Data Redis**
+
+在Spring Boot项目中，可以使用Spring Data Redis来简化Redis操作，maven坐标：
+
+```
+<dependency>
+	<groupld>org.springframework.boot</groupld>
+	<artifactld>spring-boot-starter-data-redis</artifactld>
+</dependency>
+```
+
+Spring Data Redis中提供了一个高度封装的类：RedisTemplate，针对jedis客户端中大量api进行了归类封装，将同一类型操作封装为operation接口，具体分类如下：
+
+- ValueOperations：简单K-V操作
+- SetOperations: set类型数据操作
+- ZSetOperations: zset类型数据操作
+- HashOperations：针对map类型的数据操作
+- ListOperations：针对list类型的数据操作
