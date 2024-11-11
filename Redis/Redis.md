@@ -190,3 +190,54 @@ Spring Data Redis中提供了一个高度封装的类：RedisTemplate，针对je
 - ZSetOperations: zset类型数据操作
 - HashOperations：针对map类型的数据操作
 - ListOperations：针对list类型的数据操作
+
+## Spring Cache
+
+### Spring Cache介绍
+
+**Spring Cache**是一个框架，实现了基于注解的缓存功能，只需要简单地加一个注解，就能实现缓存功能。
+Spring Cache提供了一层抽象，底层可以切换不同的cache实现。具体就是通过**CacheManager**接口来统一不同的缓存技术。
+CacheManager是Spring提供的各种缓存技术抽象接口。
+
+**针对不同的缓存技术需要实现不同的CacheManager:**
+
+| CacheManager        | 描述                               |
+| ------------------- | ---------------------------------- |
+| EhCacheCacheManager | 使用EhCache作为缓存技术            |
+| GuavaCacheManager   | 使用Google的GuavaCache作为缓存技术 |
+| RedisCacheManager   | 使用Redis作为缓存技术              |
+
+### Spring Cache常用注解
+
+| 注解           | 说明                                                         |
+| -------------- | ------------------------------------------------------------ |
+| @EnableCaching | 开启缓存注解功能                                             |
+| @Cacheable     | 在方法执行前spring查看缓存中是否有数据，如果有数据，则直接返回缓存数据；<br/>若没有数据，调用方法并将方法返回值放到缓存中 |
+| @CachePut      | 将方法的返回值放到缓存中                                     |
+| @CacheEvict    | 将一条或多条数据从缓存中删除                                 |
+
+在spring boot项目中，使用缓存技术只需在项目中导入相关缓存技术的依赖包，并在启动类上使用
+@EnableCaching开启缓存支持即可。
+例如，使用Redis作为缓存技术，只需要导入Spring data Redis的maven坐标即可。
+
+### Spring Cache使用方式
+
+**在Spring Boot项目中使用Spring Cache的操作步骤（使用redis缓存技术）**:
+
+1. 导入maven坐标
+   spring-boot-starter-data-redis、 
+
+2. 配置application.yml
+
+    ```
+   spring:
+   	cache:
+   		redis:
+   			time-to-live:1800000 ＃设置缓存有效期
+   ```
+
+3. 在启动类上加入＠EnableCaching注解，开启缓存注解功能
+
+4. 在Controller的方法上加入＠Cacheable、@CacheEvict等注解，进行缓存操作
+
+  
